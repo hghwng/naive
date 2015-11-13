@@ -52,7 +52,7 @@ int poll(nfc_target *nt)
   const uint8_t uiPollNr = 20;
   const uint8_t uiPeriod = 2;
   const nfc_modulation nmModulations[1] = {
-    { .nmt = NMT_ISO14443A, .nbr = NBR_106 } 
+    { .nmt = NMT_ISO14443A, .nbr = NBR_106 }
   };
   const size_t szModulations = 1;
 
@@ -82,7 +82,7 @@ int poll(nfc_target *nt)
     nfc_exit(context);
     return -1;
   }
- 
+
  while (0 == nfc_initiator_target_is_present(pnd, NULL)) {}
 
   nfc_close(pnd);
@@ -106,7 +106,7 @@ PlgCustomAuthResponse nfc_login_callback(PlgConf &conf)
       resp.message = "Success";
       resp.result = PlgCustomAuthResponse::kSuccess;
     } else {
-      resp.message = "Incorrect UID:" + uid + ":" + conf["nfcid"];
+      resp.message = "Incorrect UID";
       resp.result = PlgCustomAuthResponse::kFail;
     }
   }
