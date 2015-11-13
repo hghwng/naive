@@ -1,4 +1,4 @@
-#include <plugin.h>
+#include <plg_api.h>
 
 PlgCustomAuthResponse custauth_callback(
     const PlgConf &sysconf, const PlgConf &plgconf) {

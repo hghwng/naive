@@ -1,4 +1,4 @@
-#include <plugin.h>
+#include <plg_api.h>
 
 PlgSystemAuthResponse sysauth_callback(
     const PlgConf &sysconf, const PlgConf &plgconf) {

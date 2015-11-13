@@ -1,5 +1,5 @@
-#ifndef PLUGIN_PLUGIN_H
-#define PLUGIN_PLUGIN_H
+#ifndef INCLUDE_PLG_API_H
+#define INCLUDE_PLG_API_H
 #include <string>
 #include <map>
 
