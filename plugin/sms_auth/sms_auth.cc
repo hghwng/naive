@@ -6,6 +6,7 @@
 #include <plg_api.h>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 
 void send_SMS(std::string phone_no, std::string content) {
     std::string mPhoneNumber = phone_no;
@@ -25,12 +26,17 @@ void send_SMS(std::string phone_no, std::string content) {
 
 std::string generateAuthCode() {
 
-    long double sysTime = time(0);
+    long long sysTime = (time(0) + 545454465454) % 1000000;
 
-    std::stringstream ss;
-    ss << sysTime;
+    char a[8];
+    sprintf(a,"%06d",(int)sysTime);
 
-    return ss.str();
+    std::string s(a);
+
+//    std::ostringstream ss;
+//    ss << std::setw(6)<<std::setfill(0)<<1;//sysTime;
+
+    return s;
 }
 
 PlgCustomAuthResponse::PlgCustomAuthResult check(std::string generateAuthCode, std::string inputAuthCode) {
@@ -50,14 +56,14 @@ PlgCustomAuthResponse::PlgCustomAuthResult check(std::string generateAuthCode, s
 PlgCustomAuthResponse smsAuth_callback(PlgConf &conf) {
     PlgCustomAuthResponse resp;
 
-    std::string generateAuthCode = generateAuthCode();
-    send_SMS(conf["userphone"] ,"Your SMS Auth Code is " + generateAuthCode);
+    std::string AuthCode = generateAuthCode();
+    send_SMS(conf["userphone"] , "Your SMS Auth Code is " + AuthCode);
 
     std::string inputAuthCode;
     std::cout<<"Please input your SMS Auth code"<<std::endl;
     std::cin>> inputAuthCode;
 
-    resp.result = check(generateAuthCode,inputAuthCode);
+    resp.result = check(AuthCode, inputAuthCode);
 
     switch (resp.result) {
         case PlgCustomAuthResponse::kSuccess :
