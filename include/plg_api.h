@@ -23,8 +23,8 @@ enum PlgAuthType {
 };
 
 using PlgConf = std::map<std::string, std::string>;
-using PlgSystemAuthCb = PlgSystemAuthResponse (*)(const PlgConf &conf);
-using PlgCustomAuthCb = PlgCustomAuthResponse (*)(const PlgConf &conf);
+using PlgSystemAuthCb = PlgSystemAuthResponse (*)(PlgConf &conf);
+using PlgCustomAuthCb = PlgCustomAuthResponse (*)(PlgConf &conf);
 
 struct PlgInfo {
   std::string name;

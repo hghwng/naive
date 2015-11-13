@@ -35,7 +35,7 @@ string print_nfc_target(const nfc_target *pnt)
   int offset = 0;
   for (int i = 0; i<nai.szUidLen; ++i)
 	offset += sprintf(buf + offset, "%02x", nai.abtUid[i]);
-  buf[offset-1]=0;
+  buf[offset]=0;
   string str(buf);
   return str;
 }
@@ -90,8 +90,9 @@ int poll(nfc_target *nt)
   return res;
 }
 
-PlgCustomAuthResponse nfc_login_callback(const PlgConf &conf)
+PlgCustomAuthResponse nfc_login_callback(PlgConf &conf)
 {
+  PlgCustomAuthResponse resp;
   nfc_target nt;
   int res = poll(&nt);
   if(res <= 0)
@@ -100,12 +101,12 @@ PlgCustomAuthResponse nfc_login_callback(const PlgConf &conf)
     resp.result = PlgCustomAuthResponse::kError;
   } else {
     string uid = print_nfc_target(&nt);
-    if(conf["nfcid"] == str)
+    if(conf["nfcid"] == uid)
     {
       resp.message = "Success";
       resp.result = PlgCustomAuthResponse::kSuccess;
     } else {
-      resp.message = "Incorrect UID";
+      resp.message = "Incorrect UID:" + uid + ":" + conf["nfcid"];
       resp.result = PlgCustomAuthResponse::kFail;
     }
   }
