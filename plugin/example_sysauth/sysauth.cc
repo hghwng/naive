@@ -1,7 +1,6 @@
 #include <plg_api.h>
 
-PlgSystemAuthResponse sysauth_callback(
-    const PlgConf &sysconf, const PlgConf &plgconf) {
+PlgSystemAuthResponse sysauth_callback(const PlgConf &conf) {
   PlgSystemAuthResponse state;
 
   switch (rand() % 2) {
@@ -20,6 +19,7 @@ PlgSystemAuthResponse sysauth_callback(
 
 bool plg_init(PlgInfo *info) {
   info->name = "sysauth";
+  info->description = "Authenticate by system";
   info->auth_type = kSystemAuth;
   info->sys_auth_cb = sysauth_callback;
   return true;
