@@ -1,6 +1,7 @@
 #include <plg_api.h>
+#include <stdlib.h>
 
-PlgCustomAuthResponse custauth_callback(const PlgConf &conf) {
+PlgCustomAuthResponse pam_callback(const PlgConf &conf) {
   PlgCustomAuthResponse resp;
 
   switch (rand() % 3) {
@@ -24,7 +25,7 @@ PlgCustomAuthResponse custauth_callback(const PlgConf &conf) {
 bool plg_init(PlgInfo *info) {
   info->name = "custauth";
   info->description = "An example for customized authentication";
-  info->auth_type = kSystemAuth;
-  info->cust_auth_cb = custauth_callback;
+  info->auth_type = kCustomAuth;
+  info->cust_auth_cb = pam_callback;
   return true;
 }

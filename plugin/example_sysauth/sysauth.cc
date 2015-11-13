@@ -1,4 +1,5 @@
 #include <plg_api.h>
+#include <stdlib.h>
 
 PlgSystemAuthResponse sysauth_callback(const PlgConf &conf) {
   PlgSystemAuthResponse state;

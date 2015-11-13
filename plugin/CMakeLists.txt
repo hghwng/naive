@@ -6,3 +6,4 @@ set(LIBRARY_OUTPUT_PATH ../../bin/plugins)
 
 add_subdirectory(example_custauth)
 add_subdirectory(example_sysauth)
+add_subdirectory(pam_login)
