@@ -1,5 +1,6 @@
 #include <plg_api.h>
 #include <stdlib.h>
+#include <string.h>
 #include <iostream>
 #include <security/pam_appl.h>
 
@@ -47,12 +48,12 @@ static PlgCustomAuthResponse::PlgCustomAuthResult check(std::string username, st
   return PlgCustomAuthResponse::kSuccess;
 }
 
-PlgCustomAuthResponse pam_callback(const PlgConf &conf) {
+PlgCustomAuthResponse pam_callback(PlgConf &conf) {
   PlgCustomAuthResponse resp;
   std::string password;
   std::cout << "Password: ";
   std::cin >> password;
-  resp.result = check(conf.at("username"), password);
+  resp.result = check(conf["username"], password);
 
   switch (resp.result) {
     case PlgCustomAuthResponse::kSuccess:
