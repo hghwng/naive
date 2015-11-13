@@ -1,39 +1,13 @@
 #include <dirent.h>
 #include <dlfcn.h>
-#include <vector>
-#include <fstream>
 
-#include <plugin.h>
+#include "plugins.h"
+#include "util.h"
 
-struct Plugin {
-  PlgInfo info;
-  PlgConf conf;
-};
-
-std::vector<Plugin> g_plgs;
-PlgConf g_conf;
-
-void plugin_read_conf(std::string path, PlgConf &conf) {
-  std::ifstream stream;
-  stream.open(path);
-
-  std::string line;
-  while (getline(stream, line)) {
-    std::string key;
-    std::string val;
-
-    auto i = line.begin();
-    for (; i != line.end() && isspace(*i); ++i);
-    for (; i != line.end() && !isspace(*i); ++i) key.push_back(*i);
-    for (; i != line.end() && isspace(*i); ++i);
-    for (; i != line.end(); ++i) val.push_back(*i);
-    conf[key] = val;
-  }
-}
+std::vector<PlgInfo> g_plgs;
 
 bool plugin_load_all() {
   static const char *kPluginPath = "plugins/";
-  static const char *kConfPath = "conf/";
   static const char *kSymbol = "plg_init";
 
   DIR *dir = opendir(kPluginPath);
@@ -53,20 +27,14 @@ bool plugin_load_all() {
       continue;
     }
 
-    Plugin plg;
-    bool st = fn(&plg.info);
+    PlgInfo info;
+    bool st = fn(&info);
     if (!st) {
       dlclose(handle);
       continue;
     }
 
-    std::string conf_path = kConfPath;
-    conf_path += "/";
-    conf_path += plg.info.name;
-    conf_path += ".conf";
-
-    plugin_read_conf(conf_path, plg.conf);
-    g_plgs.push_back(plg);
+    g_plgs.push_back(info);
   }
 
   closedir(dir);
