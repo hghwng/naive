@@ -19,6 +19,7 @@ PlgSystemAuthResponse sysauth_callback(
 }
 
 bool plg_init(PlgInfo *info) {
+  info->name = "sysauth";
   info->auth_type = kSystemAuth;
   info->sys_auth_cb = sysauth_callback;
   return true;

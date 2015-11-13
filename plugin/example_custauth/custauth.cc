@@ -23,6 +23,7 @@ PlgCustomAuthResponse custauth_callback(
 }
 
 bool plg_init(PlgInfo *info) {
+  info->name = "custauth";
   info->auth_type = kSystemAuth;
   info->cust_auth_cb = custauth_callback;
   return true;
