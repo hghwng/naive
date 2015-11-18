@@ -1,8 +1,11 @@
 #include <plg_api.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
+
 #include <security/pam_appl.h>
+#include <unistd.h>
 
 static char *g_password = NULL;
 
@@ -27,6 +30,7 @@ static PlgCustomAuthResponse::PlgCustomAuthResult check(std::string username, st
   const char *user = username.c_str();
   if (g_password) {
     free(g_password);
+    g_password = NULL;
   }
   g_password = (char *) malloc(sizeof(char) * (password.length() + 1));
   strcpy(g_password, password.c_str());
@@ -50,9 +54,7 @@ static PlgCustomAuthResponse::PlgCustomAuthResult check(std::string username, st
 
 PlgCustomAuthResponse pam_callback(PlgConf &conf) {
   PlgCustomAuthResponse resp;
-  std::string password;
-  std::cout << "Password: ";
-  std::cin >> password;
+  char *password = getpass("Password: ");
   resp.result = check(conf["username"], password);
 
   switch (resp.result) {
