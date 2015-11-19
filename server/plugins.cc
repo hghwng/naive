@@ -7,7 +7,7 @@
 std::vector<PlgInfo> g_plgs;
 
 bool plugin_load_all() {
-  static const char *kPluginPath = "plugins/";
+  static const char *kPluginPath = "/Users/kirito/ClionProjects/naive/build/bin/plugins/";
   static const char *kSymbol = "plg_init";
 
   DIR *dir = opendir(kPluginPath);
@@ -17,7 +17,7 @@ bool plugin_load_all() {
   while ((ent = readdir(dir)) != NULL) {
     std::string so_path = kPluginPath;
     so_path += ent->d_name;
-
+    printf("%s\n", so_path.c_str());
     auto handle = dlopen(so_path.c_str(), RTLD_LAZY);
     if (!handle) continue;
 
