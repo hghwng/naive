@@ -7,7 +7,7 @@
 std::vector<PlgInfo> g_plgs;
 
 bool plugin_load_all() {
-  static const char *kPluginPath = "plugins/";
+  static const char *kPluginPath = "/opt/naive/plugins/";
   static const char *kSymbol = "plg_init";
 
   DIR *dir = opendir(kPluginPath);

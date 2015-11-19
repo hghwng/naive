@@ -12,7 +12,7 @@ bool verify_username(const std::string &username) {
 }
 
 PlgConf verify_load_user(const std::string &username, PlgConf &conf) {
-  static const char *kConfPath = "user/";
+  static const char *kConfPath = "/opt/naive/user/";
 
   std::string path = kConfPath;
   path += username;
@@ -33,7 +33,7 @@ VerifyResponse verify_user_sysauth(std::string username,
     return resp;
   }
 
-  static const char *kBasePath = "states/";
+  static const char *kBasePath = "/opt/naive/states/";
   const int kMaxTry = 15;
   std::string userst_path = kBasePath;
   userst_path += username;
