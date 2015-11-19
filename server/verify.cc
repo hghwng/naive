@@ -24,8 +24,14 @@ PlgConf verify_load_user(const std::string &username, PlgConf &conf) {
 
 VerifyResponse verify_user_sysauth(std::string username,
     const PlgInfo &plg, PlgConf &conf) {
-  VerifyResponse resp;
+  static const char *kBasePath = "states/";
+  const int kMaxTry = 300;
+  std::string userst_path = kBasePath;
+  userst_path += username;
 
+  unlink(userst_path.c_str()); // pre-delete once for CSRF
+
+  VerifyResponse resp;
   PlgSystemAuthResponse sys_auth_resp = plg.sys_auth_cb(conf);
   if (!sys_auth_resp.result) {
     resp.message = sys_auth_resp.message;
@@ -33,18 +39,13 @@ VerifyResponse verify_user_sysauth(std::string username,
     return resp;
   }
 
-  static const char *kBasePath = "states/";
-  const int kMaxTry = 15;
-  std::string userst_path = kBasePath;
-  userst_path += username;
-
   for (int i = 0; i < kMaxTry; ++i) {
     if (unlink(userst_path.c_str()) == 0) {
       resp.message = "Success";
       resp.result = VerifyResponse::kSuccess;
       return resp;
     }
-    usleep(200);
+    usleep(100 * 1000); // 100ms for alltogether 30s wait time.
   }
 
   resp.message = "Operation timeout";

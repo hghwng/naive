@@ -11,8 +11,6 @@
 
 int main(int argc, char **argv) {
   // disable C-c and C-z
-  signal(SIGINT, SIG_IGN);
-  signal(SIGTSTP, SIG_IGN);
 
   // init plugin
   srand(time(0));
