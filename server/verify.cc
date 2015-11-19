@@ -40,9 +40,14 @@ VerifyResponse verify_user_sysauth(std::string username,
   }
 
   for (int i = 0; i < kMaxTry; ++i) {
-    if (unlink(userst_path.c_str()) == 0) {
+    if (unlink((userst_path + "_accept").c_str()) == 0) {
       resp.message = "Success";
       resp.result = VerifyResponse::kSuccess;
+      return resp;
+    }
+    if (unlink((userst_path + "_refuse").c_str()) == 0) {
+      resp.message = "User refused request.";
+      resp.result = VerifyResponse::kFail;
       return resp;
     }
     usleep(100 * 1000); // 100ms for alltogether 30s wait time.

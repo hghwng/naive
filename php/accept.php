@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 if (file_exists('./login')) {
     echo "{'success': 'true'}";
     unlink('./login');
-    touch('../build/bin/states/'.$username);
+    touch('../build/bin/states/'.$username.'_accept');
 } else {
     echo "{'success': 'false'}";
 }
